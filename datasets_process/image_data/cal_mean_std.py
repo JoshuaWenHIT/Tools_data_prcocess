@@ -52,7 +52,7 @@ def compute_mean_and_std(dataset):
     return mean, std
 
 
-path = "/media/ubuntu/SSD/JoshuaWen/Projects/ByteTrack/datasets/MOT20"
+path = "/media/joshuawen/Joshua_SSD3/Datasets/RGB/classification/RS19-WHU/RS19-WHU"
 
 # train_path = path + "/train_set"
 # test_path = path + "/test_set"
