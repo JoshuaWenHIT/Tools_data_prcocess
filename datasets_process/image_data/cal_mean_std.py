@@ -9,7 +9,7 @@ from time import time
 from tqdm import tqdm
 
 
-def compute_mean_and_std(dataset):
+def compute_mean_and_std(dataset, round_num=3):
     # 输入PyTorch的dataset，输出均值和标准差
     mean_r = 0
     mean_g = 0
@@ -19,9 +19,14 @@ def compute_mean_and_std(dataset):
         # print(img_path)
         img = Image.open(img_path)
         img = np.asarray(img)  # change PIL Image to numpy array
-        mean_b += np.mean(img[:, :, 0])
-        mean_g += np.mean(img[:, :, 1])
-        mean_r += np.mean(img[:, :, 2])
+        if len(img.shape) == 3:
+            mean_b += np.mean(img[:, :, 0])
+            mean_g += np.mean(img[:, :, 1])
+            mean_r += np.mean(img[:, :, 2])
+        elif len(img.shape) == 2:
+            mean_b += np.mean(img)
+            mean_g += np.mean(img)
+            mean_r += np.mean(img)
 
     mean_b /= len(dataset)
     mean_g /= len(dataset)
@@ -36,24 +41,32 @@ def compute_mean_and_std(dataset):
     for img_path, _ in tqdm(dataset, ncols=80):
         img = Image.open(img_path)
         img = np.asarray(img)
-        diff_b += np.sum(np.power(img[:, :, 0] - mean_b, 2))
-        diff_g += np.sum(np.power(img[:, :, 1] - mean_g, 2))
-        diff_r += np.sum(np.power(img[:, :, 2] - mean_r, 2))
-
-        N += np.prod(img[:, :, 0].shape)
+        if len(img.shape) == 3:
+            diff_b += np.sum(np.power(img[:, :, 0] - mean_b, 2))
+            diff_g += np.sum(np.power(img[:, :, 1] - mean_g, 2))
+            diff_r += np.sum(np.power(img[:, :, 2] - mean_r, 2))
+            N += np.prod(img[:, :, 0].shape)
+        elif len(img.shape) == 2:
+            diff_b += np.sum(np.power(img - mean_b, 2))
+            diff_g += np.sum(np.power(img - mean_g, 2))
+            diff_r += np.sum(np.power(img - mean_r, 2))
+            N += np.prod(img.shape)
 
     std_b = np.sqrt(diff_b / N)
     std_g = np.sqrt(diff_g / N)
     std_r = np.sqrt(diff_r / N)
 
-    mean = (mean_b.item() / 255.0, mean_g.item() / 255.0, mean_r.item() / 255.0)
+    mean = (round(mean_b.item() / 255.0, round_num),
+            round(mean_g.item() / 255.0, round_num),
+            round(mean_r.item() / 255.0, round_num))
     # mean = (mean_b.item(), mean_g.item(), mean_r.item())
-    std = (std_b.item() / 255.0, std_g.item() / 255.0, std_r.item() / 255.0)
+    std = (round(std_b.item() / 255.0, round_num),
+           round(std_g.item() / 255.0, round_num),
+           round(std_r.item() / 255.0, round_num))
     return mean, std
 
 
-path = "/media/joshuawen/Joshua_SSD3/Datasets/RGB/classification/RS19-WHU/RS19-WHU"
-
+path = "/media/joshuawen/Joshua_SSD3/Datasets/RGB/classification/UCMerced_LandUse/UCMerced_LandUse"
 # train_path = path + "/train_set"
 # test_path = path + "/test_set"
 # val_path = path + '/val_set'
