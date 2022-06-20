@@ -142,11 +142,13 @@ class ClassificationDatasetsCreate:
                             shutil.copy(file_path, sub_val_dir)
                             print("{} >>> {}".format(file, sub_val_dir))
 
-    # def concat_dataset(self):
+    def concat_dataset(self):
+        # TODO: To merge datasets which have the same classes.
+        pass
 
-    # def check_no_mistakes(self):
-
-
+    def check_no_mistakes(self):
+        # TODO: Check whether some format mistakes in the datasets.
+        pass
 
 
 if __name__ == '__main__':

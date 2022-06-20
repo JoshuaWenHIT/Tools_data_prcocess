@@ -1,6 +1,5 @@
 import os
 import cv2
-import numpy
 
 
 img_dir = '/media/joshuawen/Datasets/Datasets/ships/train/pic'

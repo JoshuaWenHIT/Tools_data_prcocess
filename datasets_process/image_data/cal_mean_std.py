@@ -1,10 +1,13 @@
-import os
-import cv2
+#
+#  cal_mean_std.py
+#  image_data
+#
+#  Created by Joshua Wen on 2022/06/20.
+#  Copyright © 2022 Joshua Wen. All rights reserved.
+#
 import numpy as np
-from torch.utils.data import Dataset
 from PIL import Image
 import torchvision
-import time
 from time import time
 from tqdm import tqdm
 
@@ -56,9 +59,9 @@ def compute_mean_and_std(dataset, round_num=3):
     std_g = np.sqrt(diff_g / N)
     std_r = np.sqrt(diff_r / N)
 
-    mean = (round(mean_b.item() / 255.0, round_num),
-            round(mean_g.item() / 255.0, round_num),
-            round(mean_r.item() / 255.0, round_num))
+    mean = (round(mean_b / 255.0, round_num),
+            round(mean_g / 255.0, round_num),
+            round(mean_r / 255.0, round_num))
     # mean = (mean_b.item(), mean_g.item(), mean_r.item())
     std = (round(std_b.item() / 255.0, round_num),
            round(std_g.item() / 255.0, round_num),
