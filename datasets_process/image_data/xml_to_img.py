@@ -2,9 +2,9 @@ import os
 import xml.dom.minidom
 import cv2 as cv
 
-ImgPath = '/media/joshuawen/Datasets/Datasets/ships/train/pic/'
-AnnoPath = "/media/joshuawen/Datasets/Datasets/ships/train/xml/"  # xml文件地址
-save_path = '/media/joshuawen/Datasets/Datasets/ships/train/pic_res/'
+ImgPath = "/media/joshuawen/Joshua_SSD3/Datasets/RGB/detection/RSOD/images/"
+AnnoPath = "/media/joshuawen/Joshua_SSD3/Datasets/RGB/detection/RSOD/annotations/"  # xml文件地址
+save_path = "/media/joshuawen/Joshua_SSD3/Datasets/RGB/detection/RSOD/res/"
 
 
 def draw_anchor(ImgPath, AnnoPath, save_path):
