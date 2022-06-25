@@ -12,7 +12,7 @@ coco['categories'] = []
 category_set = OrderedDict()
 image_set = OrderedDict()
 
-# category_item_id = 6
+# category_item_id = 0
 image_id = 000000
 annotation_id = 0
 
@@ -26,32 +26,32 @@ def addCatItem(name):
     # category_item['name'] = name
     # coco['categories'].append(category_item)
     # category_set[name] = category_item_id
-    if name == 'liner':
+    if name == 'airplane':
         category_item['id'] = 1
         category_item['name'] = name
         coco['categories'].append(category_item)
         category_set[name] = 1
-    elif name == 'container ship':
+    elif name == 'airport':
         category_item['id'] = 2
         category_item['name'] = name
         coco['categories'].append(category_item)
         category_set[name] = 2
-    elif name == 'bulk carrier':
+    elif name == 'boat':
         category_item['id'] = 3
         category_item['name'] = name
         coco['categories'].append(category_item)
         category_set[name] = 3
-    elif name == 'island reef':
+    elif name == 'bridge':
         category_item['id'] = 4
         category_item['name'] = name
         coco['categories'].append(category_item)
         category_set[name] = 4
-    elif name == 'sailboat':
+    elif name == 'harbor':
         category_item['id'] = 5
         category_item['name'] = name
         coco['categories'].append(category_item)
         category_set[name] = 5
-    elif name == 'other ship':
+    elif name == 'oilcan':
         category_item['id'] = 6
         category_item['name'] = name
         coco['categories'].append(category_item)
@@ -112,7 +112,7 @@ def addAnnoItem(object_name, image_id, category_id, bbox):
 
 def parseXmlFiles(xml_path):
     xml_list = os.listdir(xml_path)
-    xml_list.sort(key=lambda x: int(x.split('.')[0]))
+    xml_list.sort(key=lambda x: x.split('.')[0])
     for f in xml_list:
         if not f.endswith('.xml'):
             continue
@@ -165,6 +165,8 @@ def parseXmlFiles(xml_path):
                 current_sub = subelem.tag
                 if current_parent == 'object' and subelem.tag == 'name':
                     object_name = subelem.text
+                    if object_name == 'w':
+                        raise Exception('%s.' % f)
                     if object_name not in category_set:
                         current_category_id = addCatItem(object_name)
                     else:
@@ -205,8 +207,8 @@ def parseXmlFiles(xml_path):
 
 
 if __name__ == '__main__':
-    xml_path = '/media/joshuawen/Datasets/Datasets/ships/train/xml'  # 这是xml文件所在的地址
-    json_file = '/media/joshuawen/Datasets/Datasets/ships/train/coco_annotations/train_3.json'  # 这是你要生成的json文件
+    xml_path = '/media/joshuawen/Joshua_SSD3/Datasets/RGB/detection/RSD-6/train/xml'
+    json_file = '/media/joshuawen/Joshua_SSD3/Datasets/RGB/detection/RSD-6/train/annotation/rsd-6_train.json'
     parseXmlFiles(xml_path)  # 只需要改动这两个参数就行了
     # print(coco)
     json_dict = json.dumps(coco)
