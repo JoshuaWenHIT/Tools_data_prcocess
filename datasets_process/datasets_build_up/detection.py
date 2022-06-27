@@ -93,7 +93,7 @@ class DetectionDatasetsStatistic:
                             self.format_dict[file_format] += 1
 
 
-class DetectionDatasetsCreate:
+class DetectionDatasetsCreator:
     def __init__(self, root_path,
                  train_val_ratio, train_ratio,
                  train_path=None, val_path=None, test_path=None,
@@ -205,6 +205,6 @@ if __name__ == '__main__':
     # print(dataset_statistic.format_dict)
 
     # DetectionDatasetsCreate Test
-    dataset_creator = DetectionDatasetsCreate(root_path=DIR_PATH, train_val_ratio=1, train_ratio=0.8)
+    dataset_creator = DetectionDatasetsCreator(root_path=DIR_PATH, train_val_ratio=1, train_ratio=0.8)
     # dataset_creator.concat_dataset()
     dataset_creator.split_dataset()
