@@ -69,7 +69,7 @@ def compute_mean_and_std(dataset, round_num=3):
     return mean, std
 
 
-path = "/media/joshuawen/Joshua_SSD3/Datasets/RGB/classification/UCMerced_LandUse/UCMerced_LandUse"
+path = "/home/joshuawen/WorkSpace/datasets/RSOD/all"
 # train_path = path + "/train_set"
 # test_path = path + "/test_set"
 # val_path = path + '/val_set'
