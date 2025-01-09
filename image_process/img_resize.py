@@ -36,7 +36,7 @@ def resize_one_image(img_path, img_size):
     img = cv2.imread(img_path, cv2.IMREAD_COLOR)
     img_resize = cv2.resize(img, (w, h), interpolation=cv2.INTER_CUBIC)
     # cv2.imwrite(img_path, img_resize)
-    cv2.imwrite("/media/joshuawen/Joshua_SSD3/Exp/PTDS_CenterTrack/img/Resize_RGB_ret_hm_layers_channel_1.jpg", img_resize)
+    cv2.imwrite("/home/joshuawen/Projects/Tools/data/COCO2017/sample.jpg", img_resize)
 
 
 if __name__ == '__main__':
@@ -50,4 +50,4 @@ if __name__ == '__main__':
     # img_size = [1024, 1024]
     # for data_k_i in data_k:
     #     resize_img(DATADIR, data_k_i, img_size)
-    resize_one_image("/media/joshuawen/Joshua_SSD3/Exp/PTDS_CenterTrack/img/RGB_ret_hm_layers_channel_1.jpg", (1920, 1080))
+    resize_one_image("/home/joshuawen/Projects/Tools/data/COCO2017/000000005817.jpg", (512, 512))

@@ -2,15 +2,18 @@ import os
 import xml.dom.minidom
 import cv2 as cv
 
-ImgPath = "/media/joshuawen/Joshua_SSD3/Datasets/RGB/detection/RSOD/images/"
-AnnoPath = "/media/joshuawen/Joshua_SSD3/Datasets/RGB/detection/RSOD/annotations/"  # xml文件地址
-save_path = "/media/joshuawen/Joshua_SSD3/Datasets/RGB/detection/RSOD/res/"
+ImgPath = "/home/lab1523-4090/Downloads/DIOR/JPEGImages-test/"
+AnnoPath = "/home/lab1523-4090/Downloads/DIOR/Annotations/Horizontal Bounding Boxes/"  # xml文件地址
+save_path = "/home/lab1523-4090/Downloads/DIOR/JPEGImages-test-gt-vis/"
 
 
 def draw_anchor(ImgPath, AnnoPath, save_path):
-    imagelist = os.listdir(ImgPath)
+    imagelist = sorted(os.listdir(ImgPath))
     for image in imagelist:
-
+        if image.split('.')[-1] in ['jpg', 'png']:
+            pass
+        else:
+            continue
         image_pre, ext = os.path.splitext(image)
         imgfile = ImgPath + image
         xmlfile = AnnoPath + image_pre + '.xml'
@@ -50,6 +53,6 @@ def draw_anchor(ImgPath, AnnoPath, save_path):
                            thickness=2)
                 # cv.imshow('head', img)
                 print(os.path.join(save_path, filename))
-                cv.imwrite(os.path.join(save_path, filename), img)  # save picture
+        cv.imwrite(os.path.join(save_path, filename), img)  # save picture
 
 draw_anchor(ImgPath, AnnoPath, save_path)
