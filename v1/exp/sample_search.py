@@ -49,7 +49,7 @@ def sample_target(im, target_bb, search_area_factor, output_sz=None, mask=None):
     im_crop_padded = cv.copyMakeBorder(im_crop, y1_pad, y2_pad, x1_pad, x2_pad, cv.BORDER_CONSTANT)
     # deal with attention mask
     H, W, _ = im_crop_padded.shape
-    att_mask = np.ones((H,W))
+    att_mask = np.ones((H, W))
     end_x, end_y = -x2_pad, -y2_pad
     if y2_pad == 0:
         end_y = None
@@ -59,7 +59,6 @@ def sample_target(im, target_bb, search_area_factor, output_sz=None, mask=None):
     if mask is not None:
         mask_crop_padded = F.pad(mask_crop, pad=(x1_pad, x2_pad, y1_pad, y2_pad), mode='constant', value=0)
 
-
     if output_sz is not None:
         resize_factor = output_sz / crop_sz
         im_crop_padded = cv.resize(im_crop_padded, (output_sz, output_sz))
@@ -67,7 +66,8 @@ def sample_target(im, target_bb, search_area_factor, output_sz=None, mask=None):
         if mask is None:
             return im_crop_padded, resize_factor, att_mask
         mask_crop_padded = \
-        F.interpolate(mask_crop_padded[None, None], (output_sz, output_sz), mode='bilinear', align_corners=False)[0, 0]
+            F.interpolate(mask_crop_padded[None, None], (output_sz, output_sz), mode='bilinear', align_corners=False)[
+                0, 0]
         return im_crop_padded, resize_factor, att_mask, mask_crop_padded
 
     else:
@@ -77,20 +77,34 @@ def sample_target(im, target_bb, search_area_factor, output_sz=None, mask=None):
 
 
 if __name__ == '__main__':
-    img = cv.imread("/home/joshuawen/WorkSpace/MixFormer/results/vis/VisDrone-SOT-demo-2/img/0001.jpg")
-    # print(img.shape)
-    target_bbox = [1030, 417, 16, 31]
-    # im_crop_padded, resize_factor, att_mask = sample_target(im=img, target_bb=target_bbox, search_area_factor=5.0)
-    im_crop_padded, resize_factor, att_mask = sample_target(im=img, target_bb=target_bbox, search_area_factor=5.0, output_sz=320)
-    print(resize_factor)
-    print(im_crop_padded.shape)
-    print(att_mask[:, :, None].shape)
-    plt.subplot(121)
-    plt.imshow(cv.cvtColor(im_crop_padded, cv.COLOR_BGR2RGB))
-    plt.title("padding")
-    plt.subplot(122)
-    # plt.imshow(cv.cvtColor(att_mask[None, :], cv.COLOR_GRAY2RGB))
-    # plt.imshow(att_mask[:, :, None])
-    plt.imshow(att_mask)
-    plt.title("mask")
+    # img = cv.imread("/home/HDD/Datasets/LT/airplane/color/00000001.jpg")
+    # # print(img.shape)
+    # target_bbox = [601.0, 318.0, 213.0, 95.0]
+    # # im_crop_padded, resize_factor, att_mask = sample_target(im=img, target_bb=target_bbox, search_area_factor=5.0)
+    # im_crop_padded, resize_factor, att_mask = sample_target(im=img, target_bb=target_bbox, search_area_factor=4.0,
+    #                                                         output_sz=384)
+    # print(resize_factor)
+    # print(im_crop_padded.shape)
+    # print(att_mask[:, :, None].shape)
+    # plt.subplot(121)
+    # plt.imshow(cv.cvtColor(im_crop_padded, cv.COLOR_BGR2RGB))
+    # plt.title("padded")
+    # plt.subplot(122)
+    # # plt.imshow(cv.cvtColor(att_mask[None, :], cv.COLOR_GRAY2RGB))
+    # # plt.imshow(att_mask[:, :, None])
+    # plt.imshow(att_mask)
+    # plt.title("mask")
+    # plt.savefig("search_template")
+    # plt.show()
+    import torch
+    attn_pt = "/home/HDD/Temp/airplane_xzs/airplane_embed_seq_200.pt"
+    tensor = torch.load(attn_pt, map_location=torch.device('cpu'))
+    tensor_reshaped = tensor.numpy().reshape((16, 16))
+    tensor_norm = (tensor_reshaped - np.min(tensor_reshaped)) / (np.max(tensor_reshaped) - np.min(tensor_reshaped))
+    # data = np.random.rand(16, 16)
+    plt.imshow(tensor_norm, cmap='viridis', interpolation='nearest')
+    plt.colorbar()
+    plt.title('16x16 Heatmap')
+    plt.axis('off')
+    plt.savefig('./heatmap.png')
     plt.show()

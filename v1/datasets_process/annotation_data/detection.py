@@ -3,7 +3,7 @@ from PIL import Image
 import cv2
 import os
 import numpy as np
-from datasets_process.datasets_build_up.detection import DetectionDatasetsStatistic
+from v1.datasets_process.datasets_build_up.detection import DetectionDatasetsStatistic
 
 if sys.version_info[0] == 2:
     import xml.etree.cElementTree as ET
