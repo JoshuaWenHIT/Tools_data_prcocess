@@ -30,11 +30,11 @@ def add_annotation_on_original_image(coco, imgId, img_path, result_path):
             showonce = False
         if type(ann['segmentation']) != list:
             print(ann['segmentation'])
-        # mask = coco.annToMask(ann).astype(np.bool_)
-        # color_mask = np.random.randint(0, 256, (1, 3), dtype=np.uint8)
+        mask = coco.annToMask(ann).astype(np.bool_)
+        color_mask = np.random.randint(0, 256, (1, 3), dtype=np.uint8)
         # print(mask.shape)
         # print(img.shape)
-        # img[mask] = img[mask] * 0.5 + color_mask * 0.5  # 在图片上修改像素值，画出掩码
+        img[mask] = img[mask] * 0.5 + color_mask * 0.5  # 在图片上修改像素值，画出掩码
         # cv2.imshow('mask_image', img)#显示
         # cv2.waitKey(10) #必须有，不然上一句的显示不起效果。
     for j in range(len(anns)):
@@ -88,9 +88,9 @@ def get_coco_annotation(ann_path):
 
 if __name__ == '__main__':
     pylab.rcParams['figure.figsize'] = (8.0, 10.0)
-    img_path = '/media/joshuawen/JoshuaWS3/Datasets/RL/VisDrone2019_VID_COCO/val/'
-    annFile = '/media/joshuawen/JoshuaWS3/Datasets/RL/VisDrone2019_VID_COCO/annotations/VisDrone2019_VID_val_coco.json'
-    result_path = '/media/joshuawen/JoshuaWS3/Datasets/RL/VisDrone2019_VID_COCO/vis/val'
+    img_path = '/home/joshuawen/data/coco/images/val2014/'
+    annFile = '/home/joshuawen/data/coco/annotations/annotations/instances_val2014.json'
+    result_path = '/home/joshuawen/data/coco/images/res'
 
     coco, imgIds = get_coco_annotation(ann_path=annFile)
     for i in range(len(imgIds)):
